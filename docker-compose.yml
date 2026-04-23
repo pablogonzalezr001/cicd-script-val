@@ -1,0 +1,44 @@
+services:
+  kafka:
+    image: redpandadata/redpanda:latest
+    container_name: kafka-local
+    command:
+      - redpanda
+      - start
+      - --smp 1
+      - --reserve-memory 0M
+      - --overprovisioned
+      - --node-id 0
+      - --kafka-addr PLAINTEXT://0.0.0.0:9092
+      - --advertise-kafka-addr PLAINTEXT://localhost:9092
+    ports:
+      - "9092:9092"
+
+  # ===============================================
+  # Grafana Loki - Para recibir los Logs del Script
+  # ===============================================
+  loki:
+    image: grafana/loki:latest
+    container_name: loki-local
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+
+  # ===============================================
+  # Grafana UI - Dashboard Visual de Métricas
+  # ===============================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana-local
+    ports:
+      - "3000:3000"
+    environment:
+      # Habilita el acceso directo sin contraseña para pruebas locales
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    volumes:
+      # Carga automáticamente la fuente de Loki sin configurarla manual
+      - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+    depends_on:
+      - loki

@@ -1,0 +1,9 @@
+2026-04-23 14:39:21,559 - INFO - Iniciando monitor de Git en repositorio remoto para origin/feature/xxxx cada 10 segundos...
+2026-04-23 14:39:21,559 - INFO - Logs dirigidos a Loki: http://localhost:3100/loki/api/v1/push
+2026-04-23 14:39:21,608 - WARNING - La rama origin/feature/xxxx no existe o no hay un remote configurado localmente.
+2026-04-23 14:41:28,812 - INFO - Iniciando monitor de Git en repositorio remoto para origin/feature/xxxx cada 10 segundos...
+2026-04-23 14:41:28,812 - INFO - Logs dirigidos a Loki: http://localhost:3100/loki/api/v1/push
+2026-04-23 14:41:28,869 - WARNING - La rama origin/feature/xxxx no existe o no hay un remote configurado localmente.
+2026-04-23 14:58:30,285 - INFO - Iniciando monitor Global de Git para multiples ramas 'feature/*' cada 10 s...
+2026-04-23 14:58:30,286 - INFO - Logs dirigidos a Loki: http://localhost:3100/loki/api/v1/push
+2026-04-23 14:58:30,355 - WARNING - No se detectaron amas con el patrón 'feature/' en el origin remoto... A la espera.
