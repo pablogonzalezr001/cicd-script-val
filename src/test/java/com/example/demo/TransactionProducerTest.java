@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 class TransactionProducerTest {
 
     @Mock
-    private KafkaTemplate<String, Object> kafkaTemplate;
+    private KafkaTemplate kafkaTemplate;
 
     private TransactionProducer transactionProducer;
     

@@ -1,0 +1,2 @@
+{"__type":"$$EventMessageAudit","id":"de5d7464-ae2b-4d24-a91e-d39386caff4e","ts":"2026-04-28T18:40:09.262-06:00","eventName":"n8n.audit.workflow.activated","message":"n8n.audit.workflow.activated","payload":{"workflowId":"1","workflowName":"Transaction Processing","activeVersionId":"7818bc6d-e28e-42c9-b096-eec832f7e96f","activationMode":"init"}}
+{"__type":"$$EventMessageConfirm","confirm":"de5d7464-ae2b-4d24-a91e-d39386caff4e","ts":"2026-04-28T18:40:09.263-06:00","source":{"id":"0","name":"eventBus"}}

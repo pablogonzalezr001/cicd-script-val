@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+.scripts/n8n/database*
+.scripts/n8n/n8nEventLog*

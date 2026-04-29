@@ -31,7 +31,8 @@ echo "🍃 4. Iniciando servicio Spring Boot en segundo plano..."
 # Nos aseguramos de detener cualquier instancia previa en el puerto 8080 si existiera (opcional)
 lsof -i tcp:8080 | awk 'NR!=1 {print $2}' | xargs -r kill -9 || true
 
-./gradlew bootRun > build/bootRun.log 2>&1 &
+./gradlew build -x test
+java -jar build/libs/demo-0.0.1-SNAPSHOT.jar > build/bootRun.log 2>&1 &
 SPRING_PID=$!
 
 echo "⏳ Esperando a que Spring Boot inicie (15s)..."

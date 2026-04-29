@@ -11,11 +11,11 @@ public class TransactionProducer {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionProducer.class);
 
-    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final KafkaTemplate kafkaTemplate;
     private final String topicName;
 
     public TransactionProducer(
-            KafkaTemplate<String, Object> kafkaTemplate,
+            KafkaTemplate kafkaTemplate,
             @Value("${transaction.topic.name:transactions-topic}") String topicName) {
         this.kafkaTemplate = kafkaTemplate;
         this.topicName = topicName;
