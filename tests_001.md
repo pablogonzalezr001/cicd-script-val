@@ -87,9 +87,9 @@ bash
 
 
 # Crearemos un commit vacío para poder forzar el ambiente de un merge
-git commit --allow-empty -m "Dummy commit 1"
-git checkout -b temp/testing-branch
-git commit --allow-empty -m "Dummy commit 2"
+git commit --allow-empty -m "Dummy commit 1" // Avanzas el tiempo en tu rama base.
+git checkout -b temp/testing-branch // Abres un túnel paralelo (como si un segundo desarrollador creara su rama).
+git commit --allow-empty -m "Dummy commit 2" // Avanzas el tiempo paralelamente.
 # Regresa a la principal del monitor y fusiona "sin omitir" el historial para que genere el parentesco dual (el verdadero Merge)
 git checkout feature/xxxx
 git merge temp/testing-branch --no-ff -m "Testing real merge trigger for Python script"

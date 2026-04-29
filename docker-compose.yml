@@ -42,3 +42,54 @@ services:
       - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
     depends_on:
       - loki
+
+  # ===============================================
+  # LocalStack - Para crear AWS Lambda en pruebas
+  # ===============================================
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack-local
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=lambda
+      - DEFAULT_REGION=us-east-1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ./.scripts/localstack-init:/etc/localstack/init/ready.d
+
+  # ===============================================
+  # PostgreSQL - Base de datos para transacciones
+  # ===============================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-local
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: transactions_db
+    volumes:
+      - ./.scripts/postgres-init:/docker-entrypoint-initdb.d
+
+  # ===============================================
+  # n8n - Automatización de flujos
+  # ===============================================
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n-local
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - NODE_ENV=production
+      - WEBHOOK_URL=http://n8n:5678/
+      - GENERIC_TIMEZONE=America/Mexico_City
+    depends_on:
+      - postgres
+    volumes:
+      - ./.scripts/n8n:/home/node/.n8n

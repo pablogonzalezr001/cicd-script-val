@@ -7,3 +7,6 @@
 2026-04-23 14:58:30,285 - INFO - Iniciando monitor Global de Git para multiples ramas 'feature/*' cada 10 s...
 2026-04-23 14:58:30,286 - INFO - Logs dirigidos a Loki: http://localhost:3100/loki/api/v1/push
 2026-04-23 14:58:30,355 - WARNING - No se detectaron amas con el patrón 'feature/' en el origin remoto... A la espera.
+2026-04-23 16:10:31,423 - INFO - Nueva rama detectada: origin/feature/app-kafka-gitops
+2026-04-23 16:10:31,519 - INFO - ¡El commit de origin/feature/app-kafka-gitops es oficialmente un MERGE! Escribiendo eventos...
+2026-04-23 16:10:33,577 - INFO - => Log de feature/app-kafka-gitops publicado en Grafana Loki de forma exitosa.

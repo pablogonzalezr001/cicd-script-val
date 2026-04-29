@@ -1,0 +1,110 @@
+{
+  "id": "1",
+  "name": "Transaction Processing",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "transaction",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300],
+      "webhookId": "transaction-webhook"
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "schema": "public",
+        "table": "transactions",
+        "columns": "id,account_id,amount,status",
+        "dataMode": "defineBelow",
+        "values": {
+          "value": [
+            { "column": "id", "value": "={{$json.body.id}}" },
+            { "column": "account_id", "value": "={{$json.body.accountId}}" },
+            { "column": "amount", "value": "={{$json.body.amount}}" },
+            { "column": "status", "value": "={{$json.body.status}}" }
+          ]
+        }
+      },
+      "id": "2",
+      "name": "Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.1,
+      "position": [450, 300],
+      "credentials": {
+        "postgres": {
+          "id": "postgres-cred",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://httpbin.org/post",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "email", "value": "user@example.com" },
+            { "name": "subject", "value": "Transaction Processed" },
+            { "name": "message", "value": "Transaction {{$node[\"Webhook\"].json[\"body\"][\"id\"]}} was processed." }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3",
+      "name": "Mock Email",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://httpbin.org/post",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "text", "value": "New transaction received: {{$node[\"Webhook\"].json[\"body\"][\"id\"]}} for amount {{$node[\"Webhook\"].json[\"body\"][\"amount\"]}}" }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4",
+      "name": "Mock Slack",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          { "node": "Postgres", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Postgres": {
+      "main": [
+        [
+          { "node": "Mock Email", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Mock Email": {
+      "main": [
+        [
+          { "node": "Mock Slack", "type": "main", "index": 0 }
+        ]
+      ]
+    }
+  }
+}
